@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConviteModule } from './convite/convite.module';
+import { Convite } from './convite/entities/convite.entity';
 
 @Module({
   imports: [
@@ -12,10 +13,10 @@ import { ConviteModule } from './convite/convite.module';
       port: 3306,
       username: "root",
       database: "convite_api_nestjs",
-      entities: [],
+      entities: [Convite],
       synchronize: true
     }),
-    ConviteModule
+    ConviteModule,
   ],
   controllers: [AppController],
   providers: [AppService],
