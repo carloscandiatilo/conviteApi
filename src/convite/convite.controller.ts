@@ -26,6 +26,7 @@ export class ConviteController {
   update(@Param('id') id: string, @Body() updateConviteDto: UpdateConviteDto) {
     return this.conviteService.update(+id, updateConviteDto);
   }
+  
 
   @Delete(':id')
   remove(@Param('id') id: string) {

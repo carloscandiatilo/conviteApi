@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { CreateConviteDto } from './dto/create-convite.dto';
 import { UpdateConviteDto } from './dto/update-convite.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Convite } from './entities/convite.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ConviteService {
+
+  constructor(
+    @InjectRepository(Convite)
+    private readonly conviteRepository: Repository<Convite>,
+  ){}
+
   create(createConviteDto: CreateConviteDto) {
-    return 'This action adds a new convite';
+    return this.conviteRepository.save(createConviteDto)
   }
 
   findAll() {
-    return `This action returns all convite`;
+    return this.conviteRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} convite`;
+    return this.conviteRepository.findOneBy({id});
   }
 
   update(id: number, updateConviteDto: UpdateConviteDto) {
-    return `This action updates a #${id} convite`;
+    return this.conviteRepository.update(id, updateConviteDto)
   }
 
   remove(id: number) {
-    return `This action removes a #${id} convite`;
+    return this.conviteRepository.delete(id)
   }
 }
