@@ -2,34 +2,47 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ConviteService } from './convite.service';
 import { CreateConviteDto } from './dto/create-convite.dto';
 import { UpdateConviteDto } from './dto/update-convite.dto';
+import { ApiOperation, ApiResponse, ApiTags, ApiCreatedResponse } from '@nestjs/swagger';
+import { Convite } from './entities/convite.entity';
 
+@ApiTags('convite')
 @Controller('convite')
 export class ConviteController {
   constructor(private readonly conviteService: ConviteService) {}
 
   @Post()
-  create(@Body() createConviteDto: CreateConviteDto) {
+  @ApiOperation({ summary: 'Cria um novo convite' })
+  @ApiCreatedResponse({ description: 'Convite criado com sucesso', type: Convite })
+  async create(@Body() createConviteDto: CreateConviteDto): Promise<Convite> {
     return this.conviteService.create(createConviteDto);
   }
 
   @Get()
-  findAll() {
+  @ApiOperation({ summary: 'Lista todos os convites' })
+  @ApiResponse({ status: 200, description: 'Lista de convites retornada com sucesso', type: Convite, isArray: true })
+  async findAll(): Promise<Convite[]> {
     return this.conviteService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  @ApiOperation({ summary: 'Busca um convite pelo ID' })
+  @ApiResponse({ status: 200, description: 'Convite encontrado com sucesso', type: Convite })
+  async findOne(@Param('id') id: string): Promise<Convite> {
     return this.conviteService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateConviteDto: UpdateConviteDto) {
+  @ApiOperation({ summary: 'Atualiza um convite pelo ID' })
+  @ApiResponse({ status: 200, description: 'Convite atualizado com sucesso', type: Convite })
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateConviteDto: UpdateConviteDto){
     return this.conviteService.update(+id, updateConviteDto);
   }
-  
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.conviteService.remove(+id);
+  @ApiOperation({ summary: 'Exclui um convite pelo ID' })
+  @ApiResponse({ status: 200, description: 'Convite excluído com sucesso' })
+  async delete(@Param('id') id: string): Promise<void> {
+    await this.conviteService.delete(+id);
   }
 }

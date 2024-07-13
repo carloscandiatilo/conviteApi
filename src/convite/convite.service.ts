@@ -25,6 +25,10 @@ export class ConviteService {
     return this.conviteRepository.findOneBy({id});
   }
 
+  delete(id: number) {
+    return this.conviteRepository.softDelete(id);
+  }
+
   update(id: number, updateConviteDto: UpdateConviteDto) {
     return this.conviteRepository.update(id, updateConviteDto)
   }

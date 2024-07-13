@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 @Entity()
 export class Convite {
     @PrimaryGeneratedColumn()
@@ -18,4 +18,7 @@ export class Convite {
 
     @Column()
     estado: string;
+
+    @Column({ default: true })
+    isActive: boolean; 
 }
